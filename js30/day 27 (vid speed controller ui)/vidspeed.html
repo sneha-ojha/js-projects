@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>video speed scrubber</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <video class="flex" width="765" height="430" src="https://videos.pexels.com/video-files/20770858/20770858-sd_540_960_30fps.mp4" loop autoplay controls></video>
+        <div class="speed">
+            <div class="speed-bar">1x</div>
+        </div>
+    </div>
+<script>
+    const speed = document.querySelector('.speed');
+    const bar = speed.querySelector('.speed-bar');
+    const video = document.querySelector('.flex');
+
+    function handleMove(e) {
+        const y = this.offsetHeight - (e.pageY - this.offsetTop);
+        const percent = y / this.offsetHeight;
+        const min = 0.4;
+        const max = 4;
+        const height = Math.round(percent * 100) + '%';
+        const playbackRate = percent * (max - min) + min;
+        bar.style.height = height;
+        bar.textContent = playbackRate.toFixed(2) + 'x';
+        video.playbackRate = playbackRate;
+    }
+    speed.addEventListener('mousemove', handleMove);
+
+</script>
+</body>
+</html>
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.flex {
+    margin-right: 20px;
+}
+
+.speed {
+    position: relative;
+    width: 100px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.speed-bar {
+    width: 100%;
+    background: #c0e8ff;
+    border-radius: 10px;
+    text-align: center;
+    color: #000000;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: height 0.1s;
+}
+
+.speed-bar::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+ 
+    border-radius: 50%;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+</style>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>follow along nav</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        
+        nav {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+        
+        .menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .menu li {
+            display: inline;
+            margin-right: 20px;
+        }
+        
+        .menu li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .menu li a:hover {
+            color: rgb(251, 219, 13); /* Change link color to red on hover */
+        }
+        
+        .wrapper {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul class="menu">
+            <li><a href="">home</a></li>
+            <li><a href="">order status</a></li>
+            <li><a href="">tweets</a></li>
+            <li><a href="">read our history</a></li>
+            <li><a href="">contact us</a></li>
+        </ul>
+    </nav>
+    <div class="wrapper">
+        <p>kjsada jhwfjksbk jfkjsd hksf, <a href="">condhhwegd</a>ahsjgdhg kdsjhkjsah. ehggj<a href="">edxajck </a>sdjbhjac kdhsjbc shdbhc jds,jhsdbchbs, kjdshckj!</p>
+        <p>asnxascj djhcdsj djcj <a href="">quahkjef</a>jhbaedhsjb<a href="">sdjhbjhabs</a>jefhuhuehrbytryeutyb iuywirb  hgghfs hgsrfg </p>
+        <p>aaaaaaaajsnadjksan, <a href="">vbnfv</a>wertyu.dhgchsjGHHLSJ<a href="">kdjbs hsdh</a>jdshckj ksidbhBDKJc kjbv</p>
+        <p>kjsada jhwfjksbk jfkjsd hksf, <a href="">kjsada</a>ahsjgdhg kdsjhkjsah. ehggj<a href="">edxajck </a>sdjbhjac kdhsjbc shdbhc jds,jhsdbchbs, kjdshckj!</p>
+        <p>kjsada jhwfjksbk jfkjsd hksf, <a href="">condhhwegd</a>ahsjgdhg kdsjhkjsah. ehggj<a href="">edxajck </a>sdjbhjac kdhsjbc shdbhc jds,jhsdbchbs, kjdshckj!</p>
+        <p>kjsada jhwfjksbk jfkjsd hksf, <a href="">condhhwegd</a>ahsjgdhg kdsjhkjsah. ehggj<a href="">edxajck </a>sdjbhjac kdhsjbc shdbhc jds,jhsdbchbs, kjdshckj!</p>
+        <p>kjsada jhwfjksbk jfkjsd hksf, <a href="">condhhwegd</a>ahsjgdhg kdsjhkjsah. ehggj<a href="">edxajck </a>sdjbhjac kdhsjbc shdbhc jds,jhsdbchbs, kjdshckj!</p>
+    </div>
+
+    <script>
+        const triggers = document.querySelectorAll('a');
+
+        function changeColorOnHover() {
+            this.style.color = 'red';
+        }
+
+        triggers.forEach(a => a.addEventListener('mouseenter', changeColorOnHover));
+        triggers.forEach(a => a.addEventListener('mouseleave', function() {
+            this.style.color = ''; // Reset color on mouse leave
+        }));
+    </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>check multiple checkboxes</title>
+</head>
+<body>
+    <div class="checkbox">
+        <div class="item">
+            <input type="checkbox">
+            <p>this is an inbox layout</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>hold down your shift key</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>check a lower item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>everything in between is checked</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>try doing it without any libraries</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>just regular js</p>
+         </div>
+         <div class="item">
+            <input type="checkbox">
+            <p>goodluck</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>tweet your result</p>
+        </div>
+    </div>
+
+    <script>
+        const checkboxes = document.querySelectorAll('.checkbox input[type="checkbox"]');
+        let lastChecked;
+
+        function handleCheck(e) {
+            // Check if shift key is down
+            if (e.shiftKey && this.checked) {
+                let inBetween = false;
+                
+                checkboxes.forEach(checkbox => {
+                    if (checkbox === this || checkbox === lastChecked) {
+                        inBetween = !inBetween;
+                    }
+                    
+                    if (inBetween) {
+                        checkbox.checked = true;
+                    }
+                });
+            }
+            
+            lastChecked = this;
+        }
+
+        checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+    </script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .checkbox {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        p {
+            margin: 0;
+        }
+    </style>
+</body>
+</html>

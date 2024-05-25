@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .add-items input[type="text"] {
+            width: calc(100% - 110px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .add-items input[type="submit"] {
+            width: 100px;
+            padding: 8px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-items input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .plates {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .plates li {
+            margin-bottom: 10px;
+        }
+
+        .plates input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .reset {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .reset:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>my menu</h2>
+        <p></p>
+        <ul class="plates">
+            <li>loading momos...</li>
+        </ul>
+        <form class="add-items">
+            <input type="text" name="item" placeholder="Enter item name" required>
+            <input type="submit" value="+ Add item">
+        </form>
+        <button class="reset">Reset Menu</button>
+    </div>
+    <script>
+        const addItems = document.querySelector('.add-items');
+        const itemsList = document.querySelector('.plates');
+        const resetButton = document.querySelector('.reset');
+        let items = JSON.parse(localStorage.getItem('items')) || [];
+        
+        function addItem(e){
+            e.preventDefault();
+            const text = (this.querySelector('[name=item]')).value;
+            const item = {
+                text,
+                done: false
+            };
+
+            items.push(item);
+            populateList(items, itemsList);
+            localStorage.setItem('items', JSON.stringify(items));
+            this.reset();
+        }
+
+        function populateList(plates = [], list){
+            list.innerHTML = plates.map((plate, i) => {
+                return `
+                <li>
+                    <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+                    <label for="item${i}">${plate.text}</label>
+                </li>
+                `;
+            }).join('');
+        }
+
+        function toggleDone(e){
+            if (!e.target.matches('input')) return;
+            const el = e.target;
+            const index = el.dataset.index;
+            items[index].done = !items[index].done;
+            localStorage.setItem('items', JSON.stringify(items));
+            populateList(items, itemsList);
+        }
+
+        function resetList() {
+            localStorage.removeItem('items');
+            items = [];
+            populateList(items, itemsList);
+        }
+
+        addItems.addEventListener('submit', addItem);
+        itemsList.addEventListener('click', toggleDone);
+        resetButton.addEventListener('click', resetList);
+        populateList(items, itemsList);
+
+    </script>
+</body>
+</html>

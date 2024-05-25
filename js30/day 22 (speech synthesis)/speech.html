@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>speech recognition</title>
+</head>
+<body>
+    <div class="voiceinator">
+        <h1>voiceinator</h1>
+        <select name="voice" id="voices">
+            <option value="">select a voice</option>
+        </select>
+
+        <label for="rate">rate:</label>
+        <input name="rate" type="range" min="0" max="3" value="1" step="0.1">
+
+        <label for="pitch">pitch:</label>
+        <input name="pitch" type="range" min="0" max="2" step="0.1">
+        <textarea name="text">type your text here 😍</textarea>
+        <button id="stop">stop!</button>
+        <button id="speak">speak</button>
+    </div>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e74397;
+}
+
+.voiceinator {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ebbae0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.voiceinator h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.voiceinator select,
+.voiceinator input[type="range"],
+.voiceinator textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.voiceinator button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    background-color: #a20375;
+    color: #fdfdfd;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.voiceinator button:hover {
+    background-color: #e60c7c;
+}
+
+
+    </style>
+
+    <script>
+        const msg = new SpeechSynthesisUtterance();
+        let voices = [];
+        const voicesDropdown = document.querySelector('#voices');
+        const options = document.querySelectorAll('[type="range"],[name="text"]');
+        const speakButton = document.querySelector('#speak');
+        const stopButton = document.querySelector('#stop');
+
+        function populateVoices() {
+            voices = speechSynthesis.getVoices();
+            voicesDropdown.innerHTML = voices.map(voice => `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`).join('');
+        }
+
+        function setVoice() {
+            msg.voice = voices.find(voice => voice.name === this.value);
+            toggle();
+        }
+
+        function toggle(startOver = true) {
+            speechSynthesis.cancel();
+            if (startOver) {
+                speechSynthesis.speak(msg);
+            }
+        }
+
+        function setOption() {
+            msg[this.name] = this.value;
+            toggle();
+        }
+
+        speechSynthesis.addEventListener('voiceschanged', populateVoices);
+        voicesDropdown.addEventListener('change', setVoice);
+        options.forEach(option => option.addEventListener('change', setOption));
+        speakButton.addEventListener('click', toggle);
+        stopButton.addEventListener('click', () => toggle(false));
+    </script>
+</body>
+</html>

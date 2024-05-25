@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JS DRUM KIT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="keys">
+        <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">tink</span>
+        </div>
+        <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">tom</span>
+        </div>
+        <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">clap</span>
+        </div>
+        <div data-key="70" class="key">
+            <kbd>F</kbd>
+            <span class="sound">openhat</span>
+        </div>
+        <div data-key="71" class="key">
+            <kbd>G</kbd>
+            <span class="sound">boom</span>
+        </div>
+        <div data-key="72" class="key">
+            <kbd>H</kbd>
+            <span class="sound">ride</span>
+        </div>
+        <div data-key="74" class="key">
+            <kbd>J</kbd>
+            <span class="sound">kick</span>
+        </div>
+        <div data-key="75" class="key">
+            <kbd>K</kbd>
+            <span class="sound">hihat</span>
+        </div>
+    </div>
+
+    <audio data-key="65" src="c:\Users\sneha\Downloads\sounds\107785__hans__tink.wav"></audio>
+    <audio data-key="83" src="c:\Users\sneha\Downloads\sounds\572851__deadrobotmusic__dr-tom-063.wav"></audio>
+    <audio data-key="68" src="c:\Users\sneha\Downloads\sounds\493712__bastianpusch__handclap10.wav"></audio>
+    <audio data-key="70" src="c:\Users\sneha\Downloads\sounds\581472__fractanimal__fractanimal_acoustic_drum_kit_cymbal_ride_crash.wav"></audio>
+    <audio data-key="71" src="c:\Users\sneha\Downloads\sounds\345606__eowaudio__rogers_mallet_fl_1.wav"></audio>
+    <audio data-key="72" src="c:\Users\sneha\Downloads\sounds\75841__rossf__lm1-hat-open.wav"></audio>
+    <audio data-key="74" src="c:\Users\sneha\Downloads\sounds\673506__theendofacycle__warrior-kick-drum.wav"></audio>
+    <audio data-key="75" src="c:\Users\sneha\Downloads\sounds\140523__stomachache__closedhatphrase-009.wav"></audio>
+
+
+    <script>
+        function playSound(e){
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            if(!audio) return; //stop the fn
+            audio.currentTime=0; //rewind to start
+            audio.play();
+            key.classList.add('playing');
+        }
+
+        function removeTransition(e){
+            if (e.propertyName!=='transform') return; //skip if it's not a transform
+            this.classList.remove('playing');
+        }
+
+        const keys=document.querySelectorAll('.key');
+        keys.forEach(key=> key.addEventListener('transitionend',removeTransition));
+        window.addEventListener('keydown',playSound);
+    </script>
+
+</body>
+</html>

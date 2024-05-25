@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>whack a mole</title>
+    <link href='https://fonts.googleapis.com/css?family=amatic+sc:400,700' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            font-family: 'amatic sc', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #f8f8f8;
+            margin: 0;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .game {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 20px;
+            width: 400px;
+            margin-top: 20px;
+        }
+
+        .hole {
+            width: 100px;
+            height: 100px;
+            background-color: #9b7653;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mole {
+            width: 80px;
+            height: 80px;
+            background: url('https://emojicdn.elk.sh/🐭') center/cover no-repeat; /* You can replace this URL with your mole image */
+            border-radius: 50%;
+            position: absolute;
+            top: 100%; /* Initially position the mole below the hole */
+            transition: top 0.3s;
+        }
+
+        .mole.up {
+            top: 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #46210358;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: #df8a55;
+        }
+
+        .score {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            font-size: 1.5em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>WHACK A MOLE! <span class="score">0</span></h1>
+    <div class="timer">Time: <span id="timerValue">60</span> seconds</div>
+    <button id="startButton">Start!</button>
+    <div class="game">
+        <div class="hole hole1">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole2">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole3">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole4">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole5">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole6">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole7">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole8">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole9">
+            <div class="mole"></div>
+        </div>
+    </div>
+    <script>
+        const holes = document.querySelectorAll('.hole');
+        const scoreBoard = document.querySelector('.score');
+        const moles = document.querySelectorAll('.mole');
+        const startButton = document.getElementById('startButton');
+        const timerValue = document.getElementById('timerValue');
+        let lastHole;
+        let timeUp = false; // corrected typo
+        let score = 0;
+        let timeLeft = 60; // Timer set to one minute (60 seconds)
+        let timer;
+
+        function randomTime(min, max) {
+            return Math.round(Math.random() * (max - min) + min);
+        }
+
+        function randomHole(holes) {
+            const idx = Math.floor(Math.random() * holes.length);
+            const hole = holes[idx];
+            if (hole === lastHole) {
+                console.log('same one');
+                return randomHole(holes);
+            }
+            lastHole = hole;
+            return hole;
+        }
+
+        function peep() {
+            const time = randomTime(50, 1500);
+            const hole = randomHole(holes);
+            hole.querySelector('.mole').classList.add('up');
+            setTimeout(() => {
+                hole.querySelector('.mole').classList.remove('up');
+                if (!timeUp) peep();
+            }, time);
+        }
+
+        function startGame() {
+            scoreBoard.textContent = 0;
+            timeUp = false;
+            score = 0;
+            timeLeft = 60;
+            timerValue.textContent = timeLeft;
+            startButton.disabled = true; // Disable the start button during the game
+            peep();
+            timer = setInterval(() => {
+                timeLeft--;
+                timerValue.textContent = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    timeUp = true;
+                    startButton.disabled = false; // Re-enable the start button after the game ends
+                }
+            }, 1000); // Update timer every second (1000 milliseconds)
+        }
+
+        function bonk(e) {
+            if (!e.isTrusted) return;
+            score++;
+            this.classList.remove('up');
+            scoreBoard.textContent = score;
+        }
+
+        moles.forEach(mole => mole.addEventListener('click', bonk));
+        startButton.addEventListener('click', startGame);
+
+    </script>
+</body>
+</html>

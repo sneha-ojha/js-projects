@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Video Player</title>
+    <style>
+        .player {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .controls button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="player">
+        <video class="video" controls>
+            <source src="https://videos.pexels.com/video-files/20770858/20770858-sd_540_960_30fps.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="controls">
+            <button class="skip" data-skip="-10">-10s</button>
+            <button class="skip" data-skip="10">+10s</button>
+        </div>
+    </div>
+
+    <script>
+        const video = document.querySelector('.video');
+        const skipButtons = document.querySelectorAll('.skip');
+
+        function handleSkip() {
+            video.currentTime += parseFloat(this.dataset.skip);
+        }
+
+        skipButtons.forEach(button => button.addEventListener('click', handleSkip));
+    </script>
+</body>
+</html>

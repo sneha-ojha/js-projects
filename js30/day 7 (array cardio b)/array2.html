@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+</head>
+
+<body>
+    <div id="people">
+        <h2>People Array:</h2>
+        <pre></pre>
+    </div>
+
+    <div id="comments">
+        <h2>Comments Array:</h2>
+        <pre></pre>
+    </div>
+
+    <div id="results">
+        <h2>Results:</h2>
+    </div>
+
+    <script>
+        const people=[
+            {name:'Wes',year:1988},
+            {name:'Kait',year:1986},
+            {name:'Irv',year:1970},
+            {name:'Lux',year:2015},
+        ];
+
+        const comments=[
+            {text:'Love this!',id:523423},
+            {text:'Super good',id:823423},
+            {text:'You are the best',id:2039842},
+            {text:'Ramen is my fav food ever',id:123523},
+            {text:'Nice Nice Nice!',id:542328},
+        ];
+
+        // Display the people array
+        document.getElementById('people').querySelector('pre').textContent = JSON.stringify(people, null, 2);
+
+        // Display the comments array
+        document.getElementById('comments').querySelector('pre').textContent = JSON.stringify(comments, null, 2);
+
+        // Create a function to update the results on the webpage
+        function updateResults(content) {
+            const resultsContainer = document.getElementById('results');
+            const paragraph = document.createElement('p');
+            paragraph.textContent = content;
+            resultsContainer.appendChild(paragraph);
+        }
+
+        //some and every checks
+        //array.prototype.some() //is at least one person 19?
+        const isAdult=people.some(person=>((new Date()).getFullYear())-person.year>=19);
+        updateResults(`Is there at least one adult? ${isAdult}`);
+
+        //array.prototype.every() //is everyone 19?
+        const allAdults=people.every(person=>((new Date()).getFullYear())-person.year>=19);
+        updateResults(`Are all adults? ${allAdults}`);
+
+        //array.prototype.find()
+        //find is like filter, but instead returns just the one you're looking for
+        //find the comment with the ID of 823423
+        const comment=comments.find(comment=>comment.id===823423);
+        updateResults(`Comment with ID 823423: ${comment.text}`);
+
+        //array.prototype.findIndex()
+        //find the comment with this id
+        //delete the comment with the ID of 823423
+        const index=comments.findIndex(comment=>comment.id===823423);
+        comments.splice(index,1);
+        updateResults(`Deleted comment with ID 823423`);
+
+        // Print the updated comments array after deletion
+        updateResults(`Updated comments array after deletion: ${JSON.stringify(comments, null, 2)}`);
+    </script>
+</body>
+</html>

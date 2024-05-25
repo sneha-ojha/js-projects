@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sorting without Articles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        li {
+            font-size: 18px;
+            padding: 10px;
+            background-color: #fff;
+            border-bottom: 1px solid #ccc;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .original-list {
+            border-right: 1px solid #ccc;
+            padding-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Original Band Names</h1>
+    <ul class="original-list" id="original-bands"></ul>
+    <h1>Sorted Band Names</h1>
+    <ul id="sorted-bands"></ul>
+
+    <script>
+        const bands = [
+            "The Midnight Mirage",
+            "Electric Echoes",
+            "Velvet Veins",
+            "A Lunar Lullaby",
+            "The Crimson Catalyst",
+            "Solar Serenade",
+            "Silver Symphony",
+            "Neon Nostalgia",
+            "An Echo Chamber",
+            "The Stardust Symphony",
+            "Aurora Alchemy",
+            "A Phoenix Rising",
+            "Infinite Illusion"
+        ];
+
+        function strip(bandName) {
+            return bandName.replace(/^(a|the|an)\s+/i, '').trim();
+        }
+
+        const sortedBands = bands.slice().sort((a, b) => strip(a) > strip(b) ? 1 : -1);
+
+        document.querySelector('#original-bands').innerHTML = bands
+            .map(band => `<li>${band}</li>`)
+            .join('');
+
+        document.querySelector('#sorted-bands').innerHTML = sortedBands
+            .map(band => `<li>${band}</li>`)
+            .join('');
+    </script>
+</body>
+</html>
